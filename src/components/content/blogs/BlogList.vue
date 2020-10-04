@@ -2,17 +2,21 @@
   <el-card class="blogs-card">
     <div slot="header" class="clearfix">
       <span>博客</span>
-      <el-button style="float: right; padding: 3px 0" type="text">共18篇</el-button>
+      <el-button style="float: right; padding: 3px 0" type="text">共{{blog.length}}篇</el-button>
     </div>
-    <div v-for="o in 8" :key="o" class="text item">
-      <blog-list-item/>
+    <div v-for="(item,index) in getCurrentData" :key="index" class="text item">
+      <blog-list-item :item="item"/>
     </div>
     <el-pagination
       background
-      layout="prev, pager, next"
-      :total="1000">
+      layout="total, prev, pager, next, jumper"
+      :current-page.sync="current"
+      :page-size="pageSize"
+      :total="blog.length">
     </el-pagination>
+
   </el-card>
+
 </template>
 
 <script>
@@ -20,10 +24,31 @@
 
   export default {
     name: "BlogList",
+    methods: {
+    },
+    computed: {
+      getCurrentData(){
+        let currentNum = (this.current-1) * this.pageSize;
+        return this.blog.slice(currentNum,currentNum+this.pageSize)
+      }
+    },
+    data() {
+      return {
+        current: 1,
+        pageSize: 2,
+      }
+    },
     components: {
       BlogListItem
+    },
+    props: {
+      blog: {
+        type: Array,
+        default: []
+      }
     }
   }
+
 </script>
 
 <style scoped>
@@ -37,10 +62,9 @@
 
   .blogs-card {
     width: 850px;
-    margin-left: 300px;
   }
 
-  .el-pagination{
+  .el-pagination {
     text-align: center;
     margin-top: 20px;
   }

@@ -1,52 +1,38 @@
 <template>
   <div id="tagscloud">
-    <a href="#" class="tagc1">存在存在</a>
-    <a href="#" class="tagc2">银行利率</a>
-    <a href="#" class="tagc5">生命奇迹</a>
-    <a href="#" class="tagc2">存在存在</a>
-    <a href="#" class="tagc2">银行利率</a>
-    <a href="#" class="tagc1">不孕不育</a>
-    <a href="#" class="tagc2">存在存在</a>
-    <a href="#" class="tagc5">生命奇迹</a>
-    <a href="#" class="tagc2">银行利率</a>
-    <a href="#" class="tagc2">耗费率2013</a>
-    <a href="#" class="tagc5">存在存在表</a>
-    <a href="#" class="tagc2">生命奇迹表</a>
-    <a href="#" class="tagc1">存在存在</a>
-    <a href="#" class="tagc2">银行利率</a>
-    <a href="#" class="tagc5">生命奇迹</a>
-    <a href="#" class="tagc2">存在存在</a>
-    <a href="#" class="tagc2">存在存在</a>
-    <a href="#" class="tagc5">生命奇迹</a>
-    <a href="#" class="tagc2">银行利率</a>
-    <a href="#" class="tagc2">耗费率2013</a>
-    <a href="#" class="tagc5">存在存在表</a>
-    <a href="#" class="tagc2">生命奇迹表</a>
-    <a href="#" class="tagc1">存在存在</a>
-    <a href="#" class="tagc2">银行利率</a>
-    <a href="#" class="tagc5">生命奇迹</a>
-    <a href="#" class="tagc2">存在存在</a>
-    <a href="#" class="tagc2">存在存在</a>
-    <a href="#" class="tagc5">生命奇迹</a>
-    <a href="#" class="tagc2">银行利率</a>
-    <a href="#" class="tagc2">耗费率2013</a>
-    <a href="#" class="tagc5">存在存在表</a>
-    <a href="#" class="tagc2">生命奇迹表</a>
+    <a href="#" :style="randomHexColor(index)" v-for="(item,index) in tag" :key="index">{{item}}</a>
   </div>
 </template>
 
 <script>
-
-
   import {tagscloud} from "common/tagscloud";
 
-  window.onload = tagscloud;
-
   export default {
-    name: "TagsCloud"
+    name: "TagsCloud",
+    computed: {
+      //给标签设置随机颜色
+      randomHexColor() {
+        return index => {
+          return {
+            color: "#fff",
+            backgroundColor: "#" + ("00000" + ((Math.random() * 0x1000000) << 0).toString(16)).substr(-6)
+          }
+        }
+      }
+    },
+    props: {
+      tag: {
+        type: Array,
+        default: []
+      }
+    },
+    updated() {
+      tagscloud()
+    }
+
   }
 </script>
 
 <style scoped>
-  @import "~assets/css/tag.css";
+  @import "~assets/css/tags_cloud.css";
 </style>

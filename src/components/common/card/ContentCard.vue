@@ -2,25 +2,24 @@
   <div class="content-card">
     <card cardName="分类">
 
-      <el-row v-for="o in 6" :key="o" justify="center" align="middle">
+      <el-row v-for="(item,index) in type" :key="index" justify="center" align="middle" class="">
         <el-col :span="12">
-<!--          <el-tag type="success" class="amount">数据结构</el-tag>-->
-          <span>数据结构</span>
+          <span>{{item.type_name}}</span>
         </el-col>
         <el-col :span="12">
-          <span>18</span>
+          <span>{{item.num}}</span>
         </el-col>
         <el-divider/>
       </el-row>
 
     </card>
     <card cardName="标签">
-      <tags-cloud/>
+      <tags-cloud :tag="tag"/>
     </card>
     <card cardName="最新">
-      <el-row v-for="o in 6" :key="o" justify="center" align="middle">
+      <el-row v-for="(title,index) in latest" :key="index" justify="center" align="middle">
         <el-col :span="24">
-          基于SpringBoot+Vue的响应式个人博客
+          {{title}}
         </el-col>
         <el-divider/>
       </el-row>
@@ -39,6 +38,20 @@
     components: {
       Card,
       TagsCloud
+    },
+    props: {
+      type: {
+        type: Array,
+        default: []
+      },
+      tag: {
+        type: Array,
+        default: []
+      },
+      latest: {
+        type: Array,
+        default: []
+      }
     },
     data() {
       return {}
@@ -66,8 +79,10 @@
     margin-left: 10px;
   }
 
-  .img{
+  .img {
     width: 348px;
     border-radius: 5px;
   }
+
+
 </style>

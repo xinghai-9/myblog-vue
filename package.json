@@ -7,10 +7,16 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@moefe/vue-aplayer": "^2.0.0-beta.5",
+    "axios": "^0.20.0",
     "core-js": "^3.6.5",
     "element-ui": "^2.13.2",
+    "mavon-editor": "^2.9.0",
+    "valine": "^1.4.14",
     "vue": "^2.6.11",
-    "vue-router": "^3.2.0",
+    "vue-avatar": "^2.3.0",
+    "vue-editor-md3": "^1.1.1",
+    "vue-router": "^3.4.5",
     "vuex": "^3.4.0"
   },
   "devDependencies": {
@@ -20,7 +26,10 @@
     "@vue/cli-service": "~4.5.0",
     "babel-plugin-transform-remove-strict-mode": "0.0.2",
     "components": "^0.1.0",
-    "vue-template-compiler": "^2.6.11"
+    "node-sass": "^4.14.1",
+    "sass-loader": "^10.0.2",
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^4.44.2"
   },
   "browserslist": [
     "> 1%",
