@@ -5,7 +5,7 @@ const Home = () => import('views/home/Home');
 const Detail = () => import('views/detail/Detail');
 const Types = () => import('views/types/Types');
 const Tags = () => import('views/tags/Tags');
-const Archives = () => import('views/archives/Archives');
+const Chart = () => import('views/chart/Chart');
 const About = () => import('views/about/About');
 
 const BlogsInput = ()=> import('views/admin/blogs-input/BlogsInput');
@@ -35,8 +35,8 @@ const routes = [
     component: Tags
   },
   {
-    path: '/archives',
-    component: Archives
+    path: '/chart',
+    component: Chart
   },
   {
     path: '/about',

@@ -5,9 +5,11 @@ import store from './store'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import APlayer from '@moefe/vue-aplayer';
+import VCharts from 'v-charts';
 
 Vue.use(ElementUI);
 Vue.use(APlayer);
+Vue.use(VCharts);
 
 Vue.config.productionTip = false;
 

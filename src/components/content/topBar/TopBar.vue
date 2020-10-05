@@ -27,7 +27,7 @@
               <i class="iconfont icon-cc-tag-more" :class="{active: 3 === getCurrentIndex1}">标签</i>
             </el-menu-item>
             <el-menu-item index="4">
-              <i class="iconfont icon-guidang" :class="{active: 4 === getCurrentIndex1}">归档</i>
+              <i class="iconfont icon-guidang" :class="{active: 4 === getCurrentIndex1}">图表</i>
             </el-menu-item>
             <el-menu-item index="5">
               <i class="iconfont icon-guanyuwomen" :class="{active: 5 === getCurrentIndex1}">关于我</i>
@@ -135,7 +135,7 @@
             this.changeCurrentIndex1(key);
             break;
           case 4:
-            this.$router.push('/archives').catch((err) => err);
+            this.$router.push('/chart').catch((err) => err);
             this.changeCurrentIndex1(key);
             break;
           case 5:

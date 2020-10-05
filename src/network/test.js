@@ -1,9 +1,9 @@
-import {request} from "./request";
+import { request } from "./request";
 
 export function getTestData() {
   return request({
-    url: '/homedata'
-  })
+    url: "/chart"
+  });
 }
 
 // export function getHomeGoods(type, page) {
