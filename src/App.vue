@@ -1,31 +1,44 @@
 <template>
   <div id="app">
     <!--顶部导航栏-->
-    <top-bar/>
+    <top-bar />
     <!--不同页面显示不同内容-->
     <keep-alive>
-      <router-view/>
+      <router-view />
     </keep-alive>
     <!--底部栏-->
-    <footer-bar/>
+    <footer-bar />
   </div>
 </template>
 
 <script>
+import TopBar from "components/content/topBar/TopBar";
+import FooterBar from "components/content/footerBar/FooterBar";
 
-  import TopBar from "components/content/topBar/TopBar";
-  import FooterBar from "components/content/footerBar/FooterBar";
+export default {
+  name: "app",
+  components: {
+    TopBar,
+    FooterBar
+  },
+  created() {
+    //在页面加载时读取localStorage里的状态信息
+    localStorage.getItem("userMsg") &&
+      this.$store.replaceState(
+        Object.assign(
+          this.$store.state,
+          JSON.parse(localStorage.getItem("userMsg"))
+        )
+      );
 
-  export default {
-    name: 'app',
-    components: {
-      TopBar,
-      FooterBar,
-    }
+    //在页面刷新时将vuex里的信息保存到localStorage里
+    window.addEventListener("beforeunload", () => {
+      localStorage.setItem("userMsg", JSON.stringify(this.$store.state));
+    });
   }
-
+};
 </script>
 
 <style>
-  @import "assets/css/base.css";
+@import "assets/css/base.css";
 </style>

@@ -44,6 +44,11 @@ export default {
         // console.log(this.timeData);
       });
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.$store.commit("changeCurrentIndex1", 4);
+    });
   }
 };
 </script>

@@ -23,6 +23,11 @@ export default {
         console.log(res);
       });
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.$store.commit("changeCurrentIndex1", 1);
+    });
   }
 };
 </script>
