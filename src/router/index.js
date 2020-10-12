@@ -8,6 +8,9 @@ const Tags = () => import("views/tags/Tags");
 const Chart = () => import("views/chart/Chart");
 const About = () => import("views/about/About");
 
+const Login = () => import("components/common/login/Login");
+const Test = () => import("components/common/test/Test");
+
 const BlogsInput = () => import("views/admin/blogs-input/BlogsInput");
 const TypesEdit = () => import("views/admin/blogs/TypesEdit");
 const TagsEdit = () => import("views/admin/blogs/TagsEdit");
@@ -58,6 +61,14 @@ const routes = [
   {
     path: "/admin/tags",
     component: TagsEdit
+  },
+  {
+    path: "/home/login",
+    component: Login
+  },
+  {
+    path: "/home/test",
+    component: Test
   }
 ];
 const router = new VueRouter({

@@ -106,18 +106,16 @@
           </el-input>
         </template>
 
-        <!--后台头像-->
-        <template v-else>
-          <el-dropdown placement="top">
-            <span class="el-dropdown-link">
-              <avatar username="星海" :src="avatarPath" class="avatar" />
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item disabled>星海</el-dropdown-item>
-              <el-dropdown-item>退出登录</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </template>
+        <!--头像-->
+        <el-dropdown placement="top">
+          <span class="el-dropdown-link">
+            <avatar username="星海" :src="avatarPath" class="avatar" />
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item disabled>星海</el-dropdown-item>
+            <el-dropdown-item>退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </el-col>
     </el-row>
   </div>
@@ -220,8 +218,8 @@ export default {
 
 .el-dropdown {
   float: right;
-  margin-top: 6px;
-  margin-right: 50px;
+  margin-top: 5px;
+  margin-right: -50px;
 }
 
 .active {
