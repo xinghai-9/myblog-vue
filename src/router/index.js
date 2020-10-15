@@ -63,11 +63,11 @@ const routes = [
     component: TagsEdit
   },
   {
-    path: "/home/login",
+    path: "/login",
     component: Login
   },
   {
-    path: "/home/test",
+    path: "/test/:id",
     component: Test
   }
 ];

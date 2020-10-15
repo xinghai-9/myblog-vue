@@ -7,7 +7,7 @@
       :item="blogItem"
       v-show="tag_name !== ''"
     >
-      <el-tag style="margin-left: 380px;">{{ tag_name }}</el-tag>
+      <el-tag style="margin-left: 350px;">{{ tag_name }}</el-tag>
     </blog-list-item>
   </div>
 </template>

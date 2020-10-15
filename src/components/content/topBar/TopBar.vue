@@ -99,21 +99,33 @@
         <template v-if="this.$route.path.indexOf('/admin') === -1">
           <el-input
             placeholder="请输入内容"
-            prefix-icon="el-icon-search"
             v-model="input"
-            class="input"
+            prefix-icon="el-icon-search"
+            class="top_input"
           >
           </el-input>
         </template>
 
         <!--头像-->
-        <el-dropdown placement="top">
+        <el-dropdown placement="top" @command="handleCommand">
           <span class="el-dropdown-link">
-            <avatar username="星海" :src="avatarPath" class="avatar" />
+            <avatar :src="avatarPath" class="avatar" />
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item disabled>星海</el-dropdown-item>
-            <el-dropdown-item>退出登录</el-dropdown-item>
+            <el-dropdown-item disabled>{{
+              isLogin ? this.$store.getters.currentUserName : "访客"
+            }}</el-dropdown-item>
+            <div v-show="!isLogin">
+              <el-dropdown-item command="toLogin">登录</el-dropdown-item>
+              <el-dropdown-item command="toRegister">注册</el-dropdown-item>
+            </div>
+
+            <div v-show="isLogin">
+              <el-dropdown-item command="toUserSpace"
+                >个人中心</el-dropdown-item
+              >
+              <el-dropdown-item command="toLoginOut">退出登录</el-dropdown-item>
+            </div>
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
@@ -141,6 +153,16 @@ export default {
     },
     getCurrentIndex2() {
       return this.$store.state.currentIndex2;
+    },
+    isLogin() {
+      if (sessionStorage.getItem("userName") != "null") {
+        console.log(sessionStorage.getItem("userName"))
+        this.$store.commit("userStatus", sessionStorage.getItem("userName"));
+      } else {
+        
+        this.$store.commit("userStatus", null);
+      }
+      return this.$store.getters.isLogin;
     }
   },
   methods: {
@@ -191,6 +213,18 @@ export default {
           this.changeCurrentIndex2(key);
           break;
       }
+    },
+    handleCommand(command) {
+      if (command === "toLogin") {
+        this.$router.push("/test/1");
+      } else if (command === "toRegister") {
+        this.$router.push("/test/2");
+      } else if (command === "toLoginOut") {
+        this.$store.commit("userStatus", null);
+        console.log(this.isLogin);
+      } else if (command === "toUserSpace") {
+        console.log("toUserSpace");
+      }
     }
   }
 };
@@ -206,7 +240,7 @@ export default {
   padding-left: 280px;
 }
 
-.input {
+.top_input {
   width: 300px;
   margin-top: 11px;
 }

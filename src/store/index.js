@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 
 Vue.use(Vuex);
 
@@ -7,17 +7,36 @@ export default new Vuex.Store({
   state: {
     currentIndex1: 1,
     currentIndex2: 1,
+    currentUserName: null,
+    isLogin: false,
+  },
+  getters: {
+    currentUserName: state => state.currentUserName,
+    isLogin: state => state.isLogin,
   },
   mutations: {
-    changeCurrentIndex1(state,key){
+    changeCurrentIndex1(state, key) {
       state.currentIndex1 = key;
     },
-    changeCurrentIndex2(state,key){
+    changeCurrentIndex2(state, key) {
       state.currentIndex2 = key;
     },
+    userStatus(state, username) {
+      if (username) {
+        console.log("userStatus...if:"+username);
+        state.currentUserName = username;
+        state.isLogin = true;
+      } else if (username == null) {
+        console.log("userStatus...else");
+        sessionStorage.setItem("userName", null);
+        state.currentUserName = null;
+        state.isLogin = false;
+      }
+    }
   },
   actions: {
-  },
-  modules: {
+    setUserName({commit}, username){
+      commit("userStatus",username);
+    }
   }
-})
+});

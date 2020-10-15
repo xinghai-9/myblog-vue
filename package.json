@@ -19,6 +19,7 @@
     "vue-avatar": "^2.3.0",
     "vue-editor-md3": "^1.1.1",
     "vue-router": "^3.4.5",
+    "vue-session": "^1.0.0",
     "vuex": "^3.4.0"
   },
   "devDependencies": {
