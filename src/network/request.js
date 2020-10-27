@@ -3,7 +3,7 @@ import axios from 'axios'
 export function request(config) {
   // 1.创建axios的实例
   const instance = axios.create({
-    baseURL: 'https://www.fastmock.site/mock/a031042383150ceae1d23a172daddf27/blog',
+    baseURL: 'http://localhost:8080',
     timeout: 5000
   });
 

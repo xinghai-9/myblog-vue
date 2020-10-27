@@ -3,13 +3,13 @@
     <router-link :to="'/detail/' + item.id">
       <el-row :gutter="20">
         <el-col :span="9">
-          <img :src="item.first_picture" class="image" />
+          <img :src="item.firstPicture" class="image" />
         </el-col>
         <el-col :span="11">
           <h3 class="title">
             {{ item.title }}
             <slot>
-              <el-tag style="margin-left: 350px;">{{ item.type }}</el-tag>
+              <el-tag>{{ item.typeName }}</el-tag>
             </slot>
           </h3>
 
@@ -17,8 +17,10 @@
             {{ item.description }}
           </div>
           <div class="date-view">
-            <i class="el-icon-date">{{ item.create_time }}</i>
-            <i class="el-icon-view">{{ item.views }}</i>
+            <i class="el-icon-date">{{ item.createTime }}</i>
+            <i class="el-icon-view">{{ item.viewNum }}</i>
+            <i class="el-icon-star-off">{{ item.favoriteNum }}</i>
+            <i class="el-icon-chat-dot-round">{{ item.commentNum }}</i>
           </div>
         </el-col>
       </el-row>

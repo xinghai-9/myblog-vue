@@ -1,7 +1,7 @@
 <template>
   <div class="content-card">
-    <card cardName="分类">
-
+    <card cardName="热门">
+      <!--
       <el-row v-for="(item,index) in type" :key="index" justify="center" align="middle" class="">
         <el-col :span="12">
           <span>{{item.type_name}}</span>
@@ -11,18 +11,13 @@
         </el-col>
         <el-divider/>
       </el-row>
-
+    -->
     </card>
     <card cardName="标签">
-      <tags-cloud :tag="tag"/>
+      <tags-cloud :tag="getAllTagName"/>
     </card>
-    <card cardName="最新">
-      <el-row v-for="(title,index) in latest" :key="index" justify="center" align="middle">
-        <el-col :span="24">
-          {{title}}
-        </el-col>
-        <el-divider/>
-      </el-row>
+    <card cardName="待定">
+
     </card>
     <el-image :src="require('@/assets/img/pic.jpg')" fit="fill" class="img"/>
   </div>
@@ -33,30 +28,64 @@
   import Card from "./Card";
   import TagsCloud from "../tagscloud/TagsCloud";
 
+  import {getAllTag} from "network/tag";
+  import {getAllBlog} from "network/blog";
+  import {getAllType} from "network/type";
+
   export default {
     name: "ContentCard",
     components: {
       Card,
       TagsCloud
     },
-    props: {
-      type: {
-        type: Array,
-        default: []
+    created() {
+      this.getAllBlog(),
+      this.getAllTag(),
+      this.getAllType()
+    },
+    computed: {
+      getPopularBlog(){
+
       },
-      tag: {
-        type: Array,
-        default: []
+      getAllTagName(){
+        let tagName = [];
+        for(let item of this.tag){
+          tagName.push(item.name);
+        }
+        return tagName;
       },
-      latest: {
-        type: Array,
-        default: []
+      getAllTypeName(){
+        let typeName = [];
+        for(let item of this.type){
+          typeName.push(item.name);
+        }
+        return typeName;
       }
     },
     data() {
-      return {}
+      return {
+        blog: [],
+        tag: [],
+        type: []
+      }
     },
-    methods: {}
+    methods: {
+      getAllBlog(){
+        getAllBlog().then(res => {
+          this.blog = res;
+        })
+      },
+      getAllTag(){
+        getAllTag().then(res => {
+          this.tag = res;
+        })
+      },
+      getAllType(){
+        getAllType().then(res => {
+          this.type = res;
+        })
+      }
+    }
   }
 
 

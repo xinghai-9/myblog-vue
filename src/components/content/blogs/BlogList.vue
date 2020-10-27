@@ -23,9 +23,20 @@
 <script>
 import BlogListItem from "./BlogListItem";
 
+import {getAllBlog} from "network/blog";
+
 export default {
   name: "BlogList",
-  methods: {},
+  created(){
+    this.getAllBlog()
+  },
+  methods: {
+    getAllBlog(){
+      getAllBlog().then(res => {
+        this.blog = res;
+      })
+    }
+  },
   computed: {
     getCurrentData() {
       let currentNum = (this.current - 1) * this.pageSize;
@@ -35,17 +46,12 @@ export default {
   data() {
     return {
       current: 1,
-      pageSize: 8
+      pageSize: 8,
+      blog: []
     };
   },
   components: {
     BlogListItem
-  },
-  props: {
-    blog: {
-      type: Array,
-      default: []
-    }
   }
 };
 </script>

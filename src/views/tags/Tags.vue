@@ -15,7 +15,6 @@
 <script>
 import MyTagsCloud from "components/common/tagscloud/MyTagsCloud";
 import BlogListItem from "components/content/blogs/BlogListItem";
-import { data } from "common/mixin";
 
 export default {
   name: "Tags",
@@ -32,16 +31,24 @@ export default {
       };
     }
   },
-  mixins: [data],
   data() {
     return {
-      tag_name: ""
+      tag_name: "",
+      blog: []
     };
   },
   methods: {
     getChildClick(data) {
       this.tag_name = data;
+    },
+    getAllBlog(){
+      getAllBlog().then(res => {
+        this.blog = res;
+      })
     }
+  },
+  created(){
+    this.getAllBlog();
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {

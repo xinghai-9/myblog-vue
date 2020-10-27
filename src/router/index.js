@@ -9,11 +9,12 @@ const Chart = () => import("views/chart/Chart");
 const About = () => import("views/about/About");
 
 const Login = () => import("components/common/login/Login");
-const Test = () => import("components/common/test/Test");
 
 const BlogsInput = () => import("views/admin/blogs-input/BlogsInput");
 const TypesEdit = () => import("views/admin/blogs/TypesEdit");
 const TagsEdit = () => import("views/admin/blogs/TagsEdit");
+
+const Test = () => import("components/common/test/Test");
 
 Vue.use(VueRouter);
 
@@ -67,7 +68,11 @@ const routes = [
     component: Login
   },
   {
-    path: "/test/:id",
+    path: "/register",
+    component: Login
+  },
+  {
+    path: "/test",
     component: Test
   }
 ];

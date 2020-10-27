@@ -156,10 +156,8 @@ export default {
     },
     isLogin() {
       if (sessionStorage.getItem("userName") != "null") {
-        console.log(sessionStorage.getItem("userName"))
         this.$store.commit("userStatus", sessionStorage.getItem("userName"));
       } else {
-        
         this.$store.commit("userStatus", null);
       }
       return this.$store.getters.isLogin;
@@ -216,12 +214,11 @@ export default {
     },
     handleCommand(command) {
       if (command === "toLogin") {
-        this.$router.push("/test/1");
+        this.$router.push("/login").catch(err => err);
       } else if (command === "toRegister") {
-        this.$router.push("/test/2");
+        this.$router.push("/register").catch(err => err);
       } else if (command === "toLoginOut") {
         this.$store.commit("userStatus", null);
-        console.log(this.isLogin);
       } else if (command === "toUserSpace") {
         console.log("toUserSpace");
       }

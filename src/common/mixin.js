@@ -14,7 +14,6 @@ export const data = {
   methods: {
     getData(){
       getData().then(res => {
-        // console.log(res);
         this.blog = res.blog;
         this.type = res.type;
         this.tag = res.tag;

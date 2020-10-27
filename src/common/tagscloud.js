@@ -1,20 +1,20 @@
-var radius = 90;
-var d = 200;
-var dtr = Math.PI / 180;
-var mcList = [];
-var lasta = 1;
-var lastb = 1;
-var distr = true;
-var tspeed = 11;
-var size = 200;
-var mouseX = 0;
-var mouseY = 10;
-var howElliptical = 1;
-var aA = null;
-var oDiv = null;
-var sa,ca,sb,cb,sc,cc,per;
+let radius = 90;
+let d = 200;
+let dtr = Math.PI / 180;
+let mcList = [];
+let lasta = 1;
+let lastb = 1;
+let distr = true;
+let tspeed = 11;
+let size = 200;
+let mouseX = 0;
+let mouseY = 10;
+let howElliptical = 1;
+let aA = null;
+let oDiv = null;
+let sa,ca,sb,cb,sc,cc,per;
 function update() {
-  var a, b, c = 0;
+  let a, b, c = 0;
   a = (Math.min(Math.max(-mouseY, -size), size) / radius) * tspeed;
   b = (-Math.min(Math.max(-mouseX, -size), size) / radius) * tspeed;
   lasta = a;
@@ -23,21 +23,21 @@ function update() {
     return;
   }
   sineCosine(a, b, c);
-  for (var i = 0; i < mcList.length; i++) {
+  for (let i = 0; i < mcList.length; i++) {
     if (mcList[i].on) {
       continue;
     }
-    var rx1 = mcList[i].cx;
-    var ry1 = mcList[i].cy * ca + mcList[i].cz * (-sa);
-    var rz1 = mcList[i].cy * sa + mcList[i].cz * ca;
+    let rx1 = mcList[i].cx;
+    let ry1 = mcList[i].cy * ca + mcList[i].cz * (-sa);
+    let rz1 = mcList[i].cy * sa + mcList[i].cz * ca;
 
-    var rx2 = rx1 * cb + rz1 * sb;
-    var ry2 = ry1;
-    var rz2 = rx1 * (-sb) + rz1 * cb;
+    let rx2 = rx1 * cb + rz1 * sb;
+    let ry2 = ry1;
+    let rz2 = rx1 * (-sb) + rz1 * cb;
 
-    var rx3 = rx2 * cc + ry2 * (-sc);
-    var ry3 = rx2 * sc + ry2 * cc;
-    var rz3 = rz2;
+    let rx3 = rx2 * cc + ry2 * (-sc);
+    let ry3 = rx2 * sc + ry2 * cc;
+    let rz3 = rz2;
 
     mcList[i].cx = rx3;
     mcList[i].cy = ry3;
@@ -48,7 +48,7 @@ function update() {
     mcList[i].x = (howElliptical * rx3 * per) - (howElliptical * 2);
     mcList[i].y = ry3 * per;
     mcList[i].scale = per;
-    var alpha = per;
+    let alpha = per;
     alpha = (alpha - 0.6) * (10 / 6);
     mcList[i].alpha = alpha * alpha * alpha - 0.2;
     mcList[i].zIndex = Math.ceil(100 - Math.floor(mcList[i].cz));
@@ -57,10 +57,10 @@ function update() {
 }
 
 function positionAll() {
-  var phi = 0;
-  var theta = 0;
-  var max = mcList.length;
-  for (var i = 0; i < max; i++) {
+  let phi = 0;
+  let theta = 0;
+  let max = mcList.length;
+  for (let i = 0; i < max; i++) {
     if (distr) {
       phi = Math.acos(-1 + (2 * (i + 1) - 1) / max);
       theta = Math.sqrt(max * Math.PI) * phi;
@@ -79,13 +79,13 @@ function positionAll() {
 }
 
 function doPosition() {
-  var l = oDiv.offsetWidth / 2;
-  var t = oDiv.offsetHeight / 2;
-  for (var i = 0; i < mcList.length; i++) {
+  let l = oDiv.offsetWidth / 2;
+  let t = oDiv.offsetHeight / 2;
+  for (let i = 0; i < mcList.length; i++) {
     if (mcList[i].on) {
       continue;
     }
-    var aAs = aA[i].style;
+    let aAs = aA[i].style;
     if (mcList[i].alpha > 0.1) {
       if (aAs.display != '')
         aAs.display = '';
@@ -114,8 +114,8 @@ function sineCosine(a, b, c) {
 }
 
 export function tagscloud () {
-  var i = 0;
-  var oTag = null;
+  let i = 0;
+  let oTag = null;
   oDiv = document.getElementById('tagscloud');
   aA = oDiv.getElementsByTagName('a');
   for (i = 0; i < aA.length; i++) {

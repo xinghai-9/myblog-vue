@@ -23,11 +23,9 @@ export default new Vuex.Store({
     },
     userStatus(state, username) {
       if (username) {
-        console.log("userStatus...if:"+username);
         state.currentUserName = username;
         state.isLogin = true;
       } else if (username == null) {
-        console.log("userStatus...else");
         sessionStorage.setItem("userName", null);
         state.currentUserName = null;
         state.isLogin = false;

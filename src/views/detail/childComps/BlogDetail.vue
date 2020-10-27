@@ -4,6 +4,8 @@
       <div class="date-view">
         <i class="el-icon-date">{{ idDetail.create_time }}</i>
         <i class="el-icon-view">{{ idDetail.views }}</i>
+        <i class="el-icon-star-off">{{ idDetail.views }}</i>
+        <i class="el-icon-chat-dot-round">{{ idDetail.views }}</i>
       </div>
     </div>
     <img :src="idDetail.first_picture" class="image" />
@@ -62,6 +64,8 @@
         一年一年，腊月来了又走；一年一年，日子越过越好。这红红的腊月，让人心生温暖，让人心怀希望；这红红的腊月，让我憧憬未来，同时也时刻提醒自己：珍惜这来之不易的好日子。
       </p>
     </div>
+    <br>
+    <el-divider> <el-button type="primary" icon="el-icon-star-off" circle></el-button></el-divider>
   </el-card>
 </template>
 
