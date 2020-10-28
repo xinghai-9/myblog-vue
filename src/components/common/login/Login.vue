@@ -116,33 +116,33 @@ export default {
 </script>
 
 <style scoped>
-h3 {
-  padding-bottom: 20px;
-}
+  h3 {
+    padding-bottom: 20px;
+  }
 
-.login {
-  width: 400px;
-  margin: 100px auto;
-}
+  .login {
+    width: 400px;
+    margin: 100px auto;
+  }
 
-.login-wrap {
-  text-align: center;
-  margin: auto 0;
-}
+  .login-wrap {
+    text-align: center;
+    margin: auto 0;
+  }
 
-.register-wrap {
-  text-align: center;
-  margin: auto 0;
-}
-.el-input {
-  width: 280px !important;
-  margin-bottom: 10px;
-}
-p {
-  color: red;
-}
+  .register-wrap {
+    text-align: center;
+    margin: auto 0;
+  }
+  .el-input {
+    width: 280px !important;
+    margin-bottom: 10px;
+  }
+  p {
+    color: red;
+  }
 
-button {
-  width: 280px !important;
-}
+  button {
+    width: 280px !important;
+  }
 </style>

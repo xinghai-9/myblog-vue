@@ -6,7 +6,7 @@
         v-for="(item, index) in tag"
         :key="index"
         :style="randomStyle(index)"
-        @click="tagCloudClick(item.name)"
+        @click="tagCloudClick(item)"
       >
         {{ item.name }}
       </a>

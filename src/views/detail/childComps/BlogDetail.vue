@@ -2,16 +2,16 @@
   <el-card class="blog-detail">
     <div slot="header">
       <div class="date-view">
-        <i class="el-icon-date">{{ idDetail.create_time }}</i>
-        <i class="el-icon-view">{{ idDetail.views }}</i>
-        <i class="el-icon-star-off">{{ idDetail.views }}</i>
-        <i class="el-icon-chat-dot-round">{{ idDetail.views }}</i>
+        <i class="el-icon-date">{{ blog.createTime }}</i>
+        <i class="el-icon-view">{{ blog.viewNum }}</i>
+        <i class="el-icon-star-off">{{ blog.favoriteNum }}</i>
+        <i class="el-icon-chat-dot-round">{{ blog.commentNum }}</i>
       </div>
     </div>
-    <img :src="idDetail.first_picture" class="image" />
+    <img :src="blog.firstPicture" class="image" />
     <el-divider />
     <div class="content">
-      <div v-html="idDetail.content" />
+      <div v-html="blog.content" />
       <br />
       <p>
         腊月一到，年就来了，如果用一种颜色来形容腊月，那么“红”字，就可以代表一切。儿时，有一种红随处可见，那是家家户户窗户上贴着的“福”字，还有门口贴着的对联。那红，一看就让人感受到喜庆！
@@ -70,19 +70,24 @@
 </template>
 
 <script>
+
+import {getBlogById} from "network/blog";
+
 export default {
   name: "BlogDetail",
-  props: {
-    idDetail: {
-      type: Object,
-      default() {
-        return {
-          create_time: "2020/01/01",
-          views: "1024",
-          first_picture: "#",
-          content: "你好"
-        };
-      }
+  data(){
+    return {
+      blog: {}
+    }
+  },
+  created(){
+    this.getBlogById()
+  },
+  methods: {
+    getBlogById(){
+      getBlogById(this.$route.params.id).then(res => {
+        this.blog = res;
+      })
     }
   }
 };

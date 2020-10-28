@@ -12,6 +12,7 @@
     "core-js": "^3.6.5",
     "echarts": "^4.9.0",
     "element-ui": "^2.13.2",
+    "jinrishici": "^1.0.6",
     "mavon-editor": "^2.9.0",
     "v-charts": "^1.19.0",
     "valine": "^1.4.14",

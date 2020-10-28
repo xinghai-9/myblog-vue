@@ -9,7 +9,7 @@
           <h3 class="title">
             {{ item.title }}
             <slot>
-              <el-tag>{{ item.typeName }}</el-tag>
+              <el-tag size="small">{{ item.typeName }}</el-tag>
             </slot>
           </h3>
 
@@ -68,22 +68,23 @@ export default {
 .title {
   margin-top: 10px;
   margin-left: -40px;
-  width: 600px;
+  width: 480px;
 }
 
 .Summary {
   color: gray;
   line-height: 18px;
   width: 480px;
-  height: 20px;
+  height: 100px;
   font-size: 14px;
-  margin-top: 15px;
+  margin-top: 10px;
   margin-left: -40px;
 }
 
 .date-view {
-  margin-top: 75px;
+  margin-top: 10px;
   margin-left: -40px;
+  width: 480px;
 }
 
 .date-view i {

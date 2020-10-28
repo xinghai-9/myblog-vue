@@ -1,9 +1,9 @@
 <template>
   <el-tabs type="border-card">
-    <el-tab-pane :label="typeItem.id" v-for="typeItem in type">
+    <el-tab-pane :label="typeItem.name" v-for="typeItem in type">
       <blog-list-item
         class="blog-list-item"
-        v-for="blogItem in getCurrentData(typeItem.id)"
+        v-for="blogItem in getCurrentData(typeItem.name)"
         :item="blogItem"
       />
     </el-tab-pane>
@@ -28,9 +28,9 @@ export default {
   },
   computed: {
     getCurrentData() {
-      return id => {
+      return name => {
         return this.blog.filter(item => {
-          return item.type_id === id;
+          return item.typeName === name;
         });
       };
     }

@@ -3,7 +3,7 @@
     <!--顶部导航栏-->
     <top-bar />
     <!--不同页面显示不同内容-->
-    <keep-alive>
+    <keep-alive exclude="Detail">
       <router-view />
     </keep-alive>
     <!--底部栏-->
