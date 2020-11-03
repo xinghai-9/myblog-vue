@@ -2,29 +2,42 @@ import { request } from "./request";
 
 export function getCommentData(blogId) {
   return request({
-    url: "/comments",
-    params: {
-      id: blogId
+    url: "/comments/" + blogId
+  });
+}
+
+export function setCommentData(newComment) {
+  return request({
+    url: "/comments/post",
+    method: "post",
+    data: {
+      commentDate: newComment.commentDate,
+      blogId: newComment.blogId,
+      fromUserId: newComment.fromUserId,
+      content: newComment.content
     }
   });
 }
 
-// export function setCommentData(blogComment) {
-//   return request({
-//     url: "/comment1",
-//     method: "post",
-//     data: {
-//       comment: blogComment
-//     }
-//   });
-// }
+export function updateCommentData(item) {
+  return request({
+    url: "/comments/put/" + item.id,
+    method: "put",
+    data: {
+      likeNum: item.likeNum
+    }
+  });
+}
 
-// export function updateCommentData(blogComment) {
-//   return request({
-//     url: "/comment2",
-//     method: "put",
-//     data: {
-//       comment: blogComment
-//     }
-//   });
-// }
+export function setReplyData(newReply){
+  return request({
+    url: "/replies/post",
+    method: "post",
+    data: {
+      commentId: newReply.commentId,
+      fromUserName: newReply.fromUserName,
+      toUserName: newReply.toUserName,
+      content: newReply.content,
+    }
+  });
+}

@@ -105,15 +105,15 @@
           >
           </el-input>
         </template>
-
-        <!--头像-->
+        
+        <!--头像 -->
         <el-dropdown placement="top" @command="handleCommand">
           <span class="el-dropdown-link">
-            <avatar :src="avatarPath" class="avatar" />
+            <avatar :src="isLogin ? getCurrentUser.avatar : avatarPath" class="avatar" />
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item disabled>{{
-              isLogin ? this.$store.getters.currentUserName : "访客"
+              isLogin ? getCurrentUser.username : "访客"
             }}</el-dropdown-item>
             <div v-show="!isLogin">
               <el-dropdown-item command="toLogin">登录</el-dropdown-item>
@@ -155,12 +155,10 @@ export default {
       return this.$store.state.currentIndex2;
     },
     isLogin() {
-      if (sessionStorage.getItem("userName") != "null") {
-        this.$store.commit("userStatus", sessionStorage.getItem("userName"));
-      } else {
-        this.$store.commit("userStatus", null);
-      }
       return this.$store.getters.isLogin;
+    },
+    getCurrentUser(){
+      return this.$store.getters.currentUser;
     }
   },
   methods: {
@@ -218,7 +216,7 @@ export default {
       } else if (command === "toRegister") {
         this.$router.push("/register").catch(err => err);
       } else if (command === "toLoginOut") {
-        this.$store.commit("userStatus", null);
+        this.$store.dispatch("setUser", null);
       } else if (command === "toUserSpace") {
         console.log("toUserSpace");
       }
@@ -228,32 +226,32 @@ export default {
 </script>
 
 <style scoped>
-#top-bar {
-  background-color: #545c64;
-  height: 60px;
-}
+  #top-bar {
+    background-color: #545c64;
+    height: 60px;
+  }
 
-.img {
-  padding-left: 280px;
-}
+  .img {
+    padding-left: 280px;
+  }
 
-.top_input {
-  width: 300px;
-  margin-top: 11px;
-}
+  .top_input {
+    width: 300px;
+    margin-top: 11px;
+  }
 
-.el-dropdown-link {
-  cursor: pointer;
-  color: #409eff;
-}
+  .el-dropdown-link {
+    cursor: pointer;
+    color: #409eff;
+  }
 
-.el-dropdown {
-  float: right;
-  margin-top: 5px;
-  margin-right: -50px;
-}
+  .el-dropdown {
+    float: right;
+    margin-top: 5px;
+    margin-right: -50px;
+  }
 
-.active {
-  color: rgb(255, 208, 75) !important;
-}
+  .active {
+    color: rgb(255, 208, 75) !important;
+  }
 </style>

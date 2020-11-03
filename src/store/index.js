@@ -7,11 +7,11 @@ export default new Vuex.Store({
   state: {
     currentIndex1: 1,
     currentIndex2: 1,
-    currentUserName: null,
+    currentUser: null,
     isLogin: false,
   },
   getters: {
-    currentUserName: state => state.currentUserName,
+    currentUser: state => state.currentUser,
     isLogin: state => state.isLogin,
   },
   mutations: {
@@ -21,20 +21,20 @@ export default new Vuex.Store({
     changeCurrentIndex2(state, key) {
       state.currentIndex2 = key;
     },
-    userStatus(state, username) {
-      if (username) {
-        state.currentUserName = username;
+    userStatus(state, user) {
+      if (user) {
+        state.currentUser = user;
         state.isLogin = true;
-      } else if (username == null) {
-        sessionStorage.setItem("userName", null);
-        state.currentUserName = null;
+      } else if (user == null) {
+        sessionStorage.setItem("user", "null");
+        state.currentUser = null;
         state.isLogin = false;
       }
     }
   },
   actions: {
-    setUserName({commit}, username){
-      commit("userStatus",username);
+    setUser({commit}, user){
+      commit("userStatus",user);
     }
   }
 });

@@ -35,6 +35,15 @@ export default {
     window.addEventListener("beforeunload", () => {
       localStorage.setItem("userMsg", JSON.stringify(this.$store.state));
     });
+
+    if (sessionStorage.getItem("user") != "null") {
+      this.$store.dispatch(
+        "setUser",
+        JSON.parse(sessionStorage.getItem("user"))
+      );
+    } else {
+      this.$store.dispatch("setUser", null);
+    }
   }
 };
 </script>

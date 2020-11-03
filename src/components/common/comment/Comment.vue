@@ -4,10 +4,15 @@
     <div class="container">
       <div class="comment" v-for="(item, index) in comments">
         <div class="info">
-          <img class="avatar" :src="item.fromAvatar" width="36" height="36" />
+          <img
+            class="avatar"
+            :src="item.fromUser.avatar"
+            width="36"
+            height="36"
+          />
           <div class="right">
-            <div class="name">{{ item.fromName }}</div>
-            <div class="date">{{ item.date }}</div>
+            <div class="name">{{ item.fromUser.username }}</div>
+            <div class="date">{{ item.commentDate }}</div>
           </div>
         </div>
         <div class="content">{{ item.content }}</div>
@@ -24,25 +29,25 @@
           </span>
           <span
             class="comment-reply"
-            @click="showCommentInput(item.id, item.fromName)"
+            @click="showCommentInput(item.id, item.fromUser.username)"
           >
             <i class="el-icon-chat-dot-round"></i>
             <span>回复</span>
           </span>
         </div>
         <div class="reply">
-          <div class="item" v-for="reply in item.reply">
+          <div class="item" v-for="reply in item.replyList">
             <div class="reply-content">
-              <span class="from-name">{{ reply.fromName }}</span
+              <span class="from-name">{{ reply.fromUserName }}</span
               ><span>: </span>
-              <span class="to-name">@{{ reply.toName }}</span>
+              <span class="to-name">@{{ reply.toUserName }}</span>
               <span>{{ reply.content }}</span>
             </div>
             <div class="reply-bottom">
-              <span>{{ reply.date }}</span>
+              <span>{{ reply.replyDate }}</span>
               <span
                 class="reply-text"
-                @click="showCommentInput(item.id, reply.fromName, reply)"
+                @click="showCommentInput(item.id, reply.fromUserName, reply)"
               >
                 <i class="el-icon-chat-dot-round"></i>
                 <span>回复</span>
@@ -109,9 +114,11 @@
 import Vue from "vue";
 import {
   getCommentData,
+  updateCommentData,
   setCommentData,
-  updateCommentData
+  setReplyData
 } from "network/comment";
+import { getUserById } from "network/user";
 import { parseTime } from "common/utils";
 
 export default {
@@ -126,6 +133,14 @@ export default {
       currentReply: {},
       comments: []
     };
+  },
+  computed: {
+    isLogin() {
+      return this.$store.getters.isLogin;
+    },
+    getCurrentUser() {
+      return this.$store.getters.currentUser;
+    }
   },
   methods: {
     /**
@@ -163,6 +178,7 @@ export default {
       this.showItemId = "";
       this.inputComment = "";
       this.inputCommentReply = "";
+      this.currentReply = {};
     },
 
     /**
@@ -170,37 +186,31 @@ export default {
      */
     commitComment(item) {
       if (item) {
-        updateCommentData(item).then(res => {
-          // console.log(res);
-        });
+        updateCommentData(item).then(res => {});
       } else {
         let content = this.inputComment;
-        let date = parseTime(new Date(), "{y}-{m}-{d} {h}:{i}");
-        let ownerId = this.$route.params.id;
+        let commentDate = parseTime(new Date(), "{y}-{m}-{d} {h}:{i}:{s}");
+        let blogId = this.$route.params.id;
 
         let comment = {
-          date: date,
-          ownerId: ownerId,
-          fromId: "001",
+          blogId: blogId,
+          fromUserId: this.getCurrentUser.id,
           content: content
         };
+
         setCommentData(comment).then(res => {
-          // console.log(res);
+          this.comments.push({
+            id: res,
+            commentDate: commentDate,
+            blogId: blogId,
+            fromUserId: this.getCurrentUser.id,
+            fromUser: this.getCurrentUser,
+            likeNum: 0,
+            content: content,
+            replyList: []
+          });
         });
 
-        let id = this.comments[this.comments.length - 1].id + "#";
-        this.comments.push({
-          id: id,
-          date: date,
-          ownerId: ownerId,
-          fromId: "001",
-          fromName: "挨踢攻城狮",
-          fromAvatar:
-            "https://wx4.sinaimg.cn/mw690/69e273f8gy1ft1541dmb7j215o0qv7wh.jpg",
-          likeNum: 0,
-          content: content,
-          reply: []
-        });
       }
 
       this.cancel();
@@ -209,32 +219,18 @@ export default {
     commitReply(item, index) {
       let start = this.inputCommentReply.indexOf(" ") + 1;
       let content = this.inputCommentReply.substring(start);
-      let myDate = parseTime(new Date(), "{y}-{m}-{d} {h}:{i}");
+      let myDate = parseTime(new Date(), "{y}-{m}-{d} {h}:{i}:{s}");
 
       let reply = {
         commentId: item.id,
-        fromId: "001",
-        toId: this.currentReply.fromId || item.fromId,
+        fromUserName: this.getCurrentUser.username,
+        toUserName: this.currentReply.fromUserName || item.fromUser.username,
         content: content,
-        date: myDate
+        replyDate: myDate
       };
 
-      // console.log(reply);
-      setCommentData(reply).then(res => {
-        // console.log(res);
-      });
-
-      this.comments[index].reply.push({
-        commentId: item.id,
-        fromId: "001",
-        fromName: "挨踢攻城狮",
-        fromAvatar:
-          "https://wx4.sinaimg.cn/mw690/69e273f8gy1ft1541dmb7j215o0qv7wh.jpg",
-        toId: this.currentReply.fromId || item.fromId,
-        toName: this.currentReply.fromName || item.fromName,
-        toAvatar: this.currentReply.fromAvatar || item.fromAvatar,
-        content: content,
-        date: myDate
+      setReplyData(reply).then(res => {
+        this.comments[index].replyList.push(reply);
       });
 
       this.cancel();
@@ -250,7 +246,6 @@ export default {
       if (fromName) {
         this.inputCommentReply = "@" + fromName + " ";
       }
-      // console.log(itemId);
       this.showItemId = itemId;
 
       if (reply) this.currentReply = reply;
@@ -260,257 +255,257 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  @import "../../../../public/scss/index";
+@import "../../../../public/scss/index";
 
-  .container {
-    padding: 0 10px;
-    box-sizing: border-box;
+.container {
+  padding: 0 10px;
+  box-sizing: border-box;
 
-    .comment {
-      display: flex;
-      flex-direction: column;
-      padding: 10px;
-      border-bottom: 1px solid $border-fourth;
-
-      .info {
-        display: flex;
-        align-items: center;
-
-        .avatar {
-          border-radius: 50%;
-        }
-
-        .right {
-          display: flex;
-          flex-direction: column;
-          margin-left: 10px;
-
-          .name {
-            font-size: 16px;
-            color: $text-main;
-            margin-bottom: 5px;
-            font-weight: 500;
-          }
-
-          .date {
-            font-size: 12px;
-            color: $text-minor;
-          }
-        }
-      }
-
-      .content {
-        font-size: 16px;
-        color: $text-main;
-        line-height: 20px;
-        padding: 10px 0;
-      }
-
-      .control {
-        display: flex;
-        align-items: center;
-        font-size: 14px;
-        color: $text-minor;
-
-        .like {
-          display: flex;
-          align-items: center;
-          margin-right: 20px;
-          cursor: pointer;
-
-          &.active,
-          &:hover {
-            color: $color-main;
-          }
-
-          .iconfont {
-            font-size: 14px;
-            margin-right: 5px;
-          }
-        }
-
-        .comment-reply {
-          display: flex;
-          align-items: center;
-          cursor: pointer;
-
-          &:hover {
-            color: $text-333;
-          }
-
-          .iconfont {
-            font-size: 16px;
-            margin-right: 5px;
-          }
-        }
-      }
-
-      .reply {
-        margin: 10px 0;
-        border-left: 2px solid $border-first;
-
-        .item {
-          margin: 0 10px;
-          padding: 10px 0;
-          border-bottom: 1px dashed $border-third;
-
-          .reply-content {
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            color: $text-main;
-
-            .from-name {
-              color: $color-main;
-            }
-
-            .to-name {
-              color: $color-main;
-              margin-left: 5px;
-              margin-right: 5px;
-            }
-          }
-
-          .reply-bottom {
-            display: flex;
-            align-items: center;
-            margin-top: 6px;
-            font-size: 12px;
-            color: $text-minor;
-
-            .reply-text {
-              display: flex;
-              align-items: center;
-              margin-left: 10px;
-              cursor: pointer;
-
-              &:hover {
-                color: $text-333;
-              }
-
-              .icon-comment {
-                margin-right: 5px;
-              }
-            }
-          }
-        }
-
-        .write-reply {
-          display: flex;
-          align-items: center;
-          font-size: 14px;
-          color: $text-minor;
-          padding: 10px;
-          cursor: pointer;
-
-          &:hover {
-            color: $text-main;
-          }
-
-          .el-icon-edit {
-            margin-right: 5px;
-          }
-        }
-
-        .fade-enter-active,
-        fade-leave-active {
-          transition: opacity 0.5s;
-        }
-
-        .fade-enter,
-        .fade-leave-to {
-          opacity: 0;
-        }
-
-        .input-wrapper {
-          padding: 10px;
-
-          .gray-bg-input,
-          .el-input__inner {
-            /*background-color: #67C23A;*/
-          }
-
-          .btn-control {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            padding-top: 10px;
-
-            .cancel {
-              font-size: 16px;
-              color: $text-normal;
-              margin-right: 20px;
-              cursor: pointer;
-
-              &:hover {
-                color: $text-333;
-              }
-            }
-
-            .confirm {
-              font-size: 16px;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .write-reply {
+  .comment {
     display: flex;
-    align-items: center;
-    font-size: 14px;
-    color: $text-minor;
+    flex-direction: column;
     padding: 10px;
-    cursor: pointer;
+    border-bottom: 1px solid $border-fourth;
 
-    &:hover {
-      color: $text-main;
-    }
-
-    .el-icon-edit {
-      margin-right: 5px;
-    }
-  }
-
-  .fade-enter-active,
-  fade-leave-active {
-    transition: opacity 0.5s;
-  }
-
-  .fade-enter,
-  .fade-leave-to {
-    opacity: 0;
-  }
-
-  .input-wrapper {
-    padding: 10px;
-
-    .gray-bg-input,
-    .el-input__inner {
-      /*background-color: #67C23A;*/
-    }
-
-    .btn-control {
+    .info {
       display: flex;
-      justify-content: flex-end;
       align-items: center;
-      padding-top: 10px;
 
-      .cancel {
-        font-size: 16px;
-        color: $text-normal;
+      .avatar {
+        border-radius: 50%;
+      }
+
+      .right {
+        display: flex;
+        flex-direction: column;
+        margin-left: 10px;
+
+        .name {
+          font-size: 16px;
+          color: $text-main;
+          margin-bottom: 5px;
+          font-weight: 500;
+        }
+
+        .date {
+          font-size: 12px;
+          color: $text-minor;
+        }
+      }
+    }
+
+    .content {
+      font-size: 16px;
+      color: $text-main;
+      line-height: 20px;
+      padding: 10px 0;
+    }
+
+    .control {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: $text-minor;
+
+      .like {
+        display: flex;
+        align-items: center;
         margin-right: 20px;
+        cursor: pointer;
+
+        &.active,
+        &:hover {
+          color: $color-main;
+        }
+
+        .iconfont {
+          font-size: 14px;
+          margin-right: 5px;
+        }
+      }
+
+      .comment-reply {
+        display: flex;
+        align-items: center;
         cursor: pointer;
 
         &:hover {
           color: $text-333;
         }
+
+        .iconfont {
+          font-size: 16px;
+          margin-right: 5px;
+        }
+      }
+    }
+
+    .reply {
+      margin: 10px 0;
+      border-left: 2px solid $border-first;
+
+      .item {
+        margin: 0 10px;
+        padding: 10px 0;
+        border-bottom: 1px dashed $border-third;
+
+        .reply-content {
+          display: flex;
+          align-items: center;
+          font-size: 14px;
+          color: $text-main;
+
+          .from-name {
+            color: $color-main;
+          }
+
+          .to-name {
+            color: $color-main;
+            margin-left: 5px;
+            margin-right: 5px;
+          }
+        }
+
+        .reply-bottom {
+          display: flex;
+          align-items: center;
+          margin-top: 6px;
+          font-size: 12px;
+          color: $text-minor;
+
+          .reply-text {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+            cursor: pointer;
+
+            &:hover {
+              color: $text-333;
+            }
+
+            .icon-comment {
+              margin-right: 5px;
+            }
+          }
+        }
       }
 
-      .confirm {
-        font-size: 16px;
+      .write-reply {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        color: $text-minor;
+        padding: 10px;
+        cursor: pointer;
+
+        &:hover {
+          color: $text-main;
+        }
+
+        .el-icon-edit {
+          margin-right: 5px;
+        }
+      }
+
+      .fade-enter-active,
+      fade-leave-active {
+        transition: opacity 0.5s;
+      }
+
+      .fade-enter,
+      .fade-leave-to {
+        opacity: 0;
+      }
+
+      .input-wrapper {
+        padding: 10px;
+
+        .gray-bg-input,
+        .el-input__inner {
+          /*background-color: #67C23A;*/
+        }
+
+        .btn-control {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          padding-top: 10px;
+
+          .cancel {
+            font-size: 16px;
+            color: $text-normal;
+            margin-right: 20px;
+            cursor: pointer;
+
+            &:hover {
+              color: $text-333;
+            }
+          }
+
+          .confirm {
+            font-size: 16px;
+          }
+        }
       }
     }
   }
+}
+
+.write-reply {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: $text-minor;
+  padding: 10px;
+  cursor: pointer;
+
+  &:hover {
+    color: $text-main;
+  }
+
+  .el-icon-edit {
+    margin-right: 5px;
+  }
+}
+
+.fade-enter-active,
+fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.input-wrapper {
+  padding: 10px;
+
+  .gray-bg-input,
+  .el-input__inner {
+    /*background-color: #67C23A;*/
+  }
+
+  .btn-control {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 10px;
+
+    .cancel {
+      font-size: 16px;
+      color: $text-normal;
+      margin-right: 20px;
+      cursor: pointer;
+
+      &:hover {
+        color: $text-333;
+      }
+    }
+
+    .confirm {
+      font-size: 16px;
+    }
+  }
+}
 </style>
