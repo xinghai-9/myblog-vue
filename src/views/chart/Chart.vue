@@ -37,11 +37,10 @@ export default {
   methods: {
     getChartData() {
       getChartData().then(res => {
-        this.timeData = res.time_data;
-        this.viewData = res.view_data;
-        this.cateData = res.cate_data;
-        this.tagData = res.tag_data;
-        // console.log(this.timeData);
+        this.timeData = res[0];
+        this.viewData = res[1];
+        this.cateData = res[2];
+        this.tagData  = res[3];
       });
     }
   },

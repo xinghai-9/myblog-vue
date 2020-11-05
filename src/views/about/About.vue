@@ -10,18 +10,53 @@
 
     <el-card class="box-card">
       <aplayer :audio="audio" :lrcType="3" ref="aplayer" />
-      <div>
-        <p class="text">
-          我的昵称是<span style="color:red;">挨踢攻城狮</span>，<br />
-          显而易见，由于鄙人经常写出常人无法理解的bug而挨踢。<br />
-          故吾常每日三省吾身——看书没？敲代码没？写笔记没？
-        </p>
-        <img
-          style="width:420px;height:250px;margin-left:18px;
-          "
-          src="https://www.tianqiweiqi.com/wp-content/uploads/2019/04/%E5%8E%8B%E5%8A%9B%E4%B9%9F%E6%B2%A1%E9%82%A3%E4%B9%88%E5%A4%A7.jpg"
-        />
-      </div>
+      <br />
+      <el-collapse v-model="activeNames" accordion>
+        <el-collapse-item name="1">
+          <template slot="title">
+            <i class="el-icon-user-solid"></i>个人信息
+          </template>
+          <div>
+            代号：沈奕、或无言、挨踢工程狮、星海
+          </div>
+          <div>
+            专业：软件工程
+          </div>
+        </el-collapse-item>
+        <el-collapse-item name="2">
+          <template slot="title">
+            <i class="el-icon-s-tools"></i>技术栈
+          </template>
+          <div>
+            前端：html/css/js、vue、element-ui
+          </div>
+          <div>
+            后端：java、spring、springboot、mybatis
+          </div>
+        </el-collapse-item>
+        <el-collapse-item name="3">
+          <template slot="title">
+            <i class="el-icon-video-camera-solid"></i>兴趣爱好
+          </template>
+          <div>
+            技术方面：linux、python、人工智能、黑客技术等
+          </div>
+          <div>
+            娱乐方面：听歌、看电影
+          </div>
+        </el-collapse-item>
+        <el-collapse-item name="4">
+          <template slot="title">
+            <i class="el-icon-s-order"></i>近期目标
+          </template>
+          <ul>
+            <li>1.看完《Java编程的逻辑》</li>
+            <li>2.看完《labuladong的算法小抄》</li>
+            <li>3.复习计算机网络</li>
+            <li>4.复习操作系统</li>
+          </ul>
+        </el-collapse-item>
+      </el-collapse>
     </el-card>
 
     <div class="clear-fix" />
@@ -39,6 +74,7 @@ export default {
   },
   data() {
     return {
+      activeNames: ["1"],
       images: [
         { id: 0, imagePath: require("@/assets/img/6.jpg") },
         { id: 1, imagePath: require("@/assets/img/7.jpg") },
@@ -51,7 +87,7 @@ export default {
           name: "关山酒",
           artist: "等什么君",
           url:
-            "http://m8.music.126.net/20201006110922/901dee449dc74259d2e0c71f2c7e6f3b/ymusic/5409/5158/025b/cc5945120af2295af4f051f44fc9981d.mp3",
+            "https://sharefs.yun.kugou.com/202011031529/3babaebd0b6ed7ce6a6af9e77584bb08/G164/M02/19/09/hJQEAF1ou5aAVrTxADlcwhIMwfQ617.mp3",
           cover:
             "https://p1.music.126.net/5zs7IvmLv7KahY3BFzUmrg==/109951163635241613.jpg?param=300y300"
         },
@@ -59,7 +95,7 @@ export default {
           name: "莫问归期",
           artist: "蒋雪儿",
           url:
-            "https://sharefs.yun.kugou.com/202010061034/cb0b3c1d3cf2b13b2897b1cdd65180e0/G165/M08/0F/03/hZQEAF1cr5qAGOY4ADWWMWd56LA023.mp3",
+            "https://sharefs.yun.kugou.com/202011031529/4e2aeec9540bdb946a1aae855d124d0c/G165/M08/0F/03/hZQEAF1cr5qAGOY4ADWWMWd56LA023.mp3",
           cover:
             "http://m.imeitou.com/uploads/allimg/2020090112/wbp0cmekiqq-lp.jpg?param=300y300"
         },
@@ -112,8 +148,6 @@ export default {
   float: right;
   position: relative;
   top: 50px;
-  /*background: url("~assets/img/xiamu.png");*/
-  /*background-size: 100% 100%;*/
 }
 
 .el-carousel {

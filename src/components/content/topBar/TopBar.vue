@@ -109,7 +109,7 @@
         <!--头像 -->
         <el-dropdown placement="top" @command="handleCommand">
           <span class="el-dropdown-link">
-            <avatar :src="isLogin ? getCurrentUser.avatar : avatarPath" class="avatar" />
+            <avatar :src="isLogin ? getCurrentUser.avatar : avatarPath"/>
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item disabled>{{
@@ -144,7 +144,7 @@ export default {
   data() {
     return {
       input: "",
-      avatarPath: "https://source.unsplash.com/random/200x200"
+      avatarPath: "http://ww4.sinaimg.cn/bmiddle/006DLFVFgy1ft0j2pddjuj30v90uvagf.jpg"
     };
   },
   computed: {

@@ -1,10 +1,10 @@
 <template>
-  <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+  <el-tabs v-model="activeName" type="card">
     <el-tab-pane label="发布" name="first">
-      <blogs-info />
+      <blogs-info :types="types" :tags="tags" />
     </el-tab-pane>
     <el-tab-pane label="列表" name="second">
-      <blogs-edit />
+      <blogs-edit :types="types" :tags="tags" />
     </el-tab-pane>
   </el-tabs>
 </template>
@@ -12,6 +12,9 @@
 <script>
 import BlogsInfo from "./childComps/BlogsInfo";
 import BlogsEdit from "./childComps/BlogsEdit";
+
+import { getAllTag } from "network/tag";
+import { getAllType } from "network/type";
 
 export default {
   name: "BlogsInput",
@@ -21,19 +24,27 @@ export default {
   },
   data() {
     return {
-      activeName: "first"
+      activeName: "first",
+      tags: [],
+      types: []
     };
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
+    getAllTag() {
+      getAllTag().then(res => {
+        this.tags = res;
+      });
     },
-    onSubmit() {
-      console.log("submit!");
-    }
+    getAllType() {
+      getAllType().then(res => {
+        this.types = res;
+      });
+    },
   },
-  created() {},
-  mounted() {},
+  created() {
+    this.getAllTag();
+    this.getAllType();
+  },
   beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.$store.commit("changeCurrentIndex2", 1);
