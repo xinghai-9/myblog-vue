@@ -24,55 +24,54 @@
 
       <el-button type="primary" icon="el-icon-search" plain>搜索</el-button>
     </el-card>
+
     <el-table
       :data="tableData"
       :default-sort="{ prop: 'date', order: 'descending' }"
+      :stripe="true"
+      :highlight-current-row="true"
     >
-      <el-table-column prop="title" label="标题" width="300"> </el-table-column>
-      <el-table-column prop="type" label="类型" width="180"> </el-table-column>
-      <el-table-column prop="status" label="状态" width="180">
+      <el-table-column prop="id" label="ID" width="80">
+        <template slot-scope="scope">
+          {{ scope.row.id }}
+        </template>
       </el-table-column>
-      <el-table-column prop="date" label="更新时间" width="180">
+      <el-table-column prop="title" label="标题" width="300"> </el-table-column>
+      <el-table-column prop="typeName" label="类型" width="120">
+      </el-table-column>
+      <el-table-column prop="published" label="状态" width="120">
+        <template slot-scope="scope">
+          {{ scope.row.published == 1 ? "发布" : "保存" }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="updateTime" label="更新时间" width="180">
       </el-table-column>
       <el-table-column label="操作">
-        <el-button size="mini">编辑 </el-button>
-        <el-button size="mini" type="danger">删除 </el-button>
+        <template slot-scope="scope">
+          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
+            >编辑
+          </el-button>
+          <el-button
+            size="mini"
+            type="danger"
+            @click="handleDelete(scope.$index, scope.row)"
+            >删除
+          </el-button>
+        </template>
       </el-table-column>
     </el-table>
   </div>
 </template>
 
 <script>
+import { eventBus } from "@/main";
+import { getAllBlog, deleteBlogById } from "network/blog";
+
 export default {
   name: "BlogsEdit",
   data() {
     return {
-      tableData: [
-        {
-          title: "基于Springboot+Vue的响应式个人博客",
-          type: "springboot",
-          status: "发布",
-          date: "2020-8-21 21:06:23"
-        },
-        {
-          title: "基于Springboot+Vue的响应式个人博客",
-          type: "springboot",
-          status: "发布",
-          date: "2020-8-21 21:06:23"
-        },
-        {
-          title: "基于Springboot+Vue的响应式个人博客",
-          type: "springboot",
-          status: "发布",
-          date: "2020-8-21 21:06:23"
-        },
-        {
-          title: "基于Springboot+Vue的响应式个人博客",
-          type: "springboot",
-          status: "发布",
-          date: "2020-8-21 21:06:23"
-        }
-      ],
+      tableData: [],
       title: "",
       type: "",
       tag: ""
@@ -83,15 +82,47 @@ export default {
     tags: Array
   },
   methods: {
-    formatter(row, column) {
-      return row.address;
-    },
     handleEdit(index, row) {
-      console.log(index, row);
+      let form = {};
+      form.title = row.title;
+      form.content = row.content;
+      form.description = row.description;
+      form.first_picture = row.firstPicture;
+
+      this.$emit("changeForm", form);
+      this.$emit("changeActiveName", "first");
     },
     handleDelete(index, row) {
-      console.log(index, row);
+      this.$confirm("此操作将永久删除该博客, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          deleteBlogById(row.id).then(res => {
+            console.log(res);
+            this.tableData.splice(index, 1);
+            this.$message({
+              type: "success",
+              message: "删除成功!"
+            });
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    },
+    getAllBlog() {
+      getAllBlog().then(res => {
+        this.tableData = res;
+      });
     }
+  },
+  updated() {
+    this.getAllBlog();
   }
 };
 </script>

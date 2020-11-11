@@ -5,7 +5,6 @@
       v-model="form.content"
       ref="md"
       :toolbars="toolbarsValue"
-      @save="saveMavon"
     />
 
     <el-card class="box-card">
@@ -59,9 +58,9 @@
             >取消<i class="el-icon-circle-close el-icon--right"
           /></el-button>
           <el-button type="success"
-            >保存<i class="el-icon-folder-add el-icon--right" @click="onSaved"
+            >保存<i class="el-icon-folder-add el-icon--right" @click="onSaved(0)"
           /></el-button>
-          <el-button type="primary" @click="onPublished"
+          <el-button type="primary" @click="onSaved(1)"
             >发布<i class="el-icon-upload el-icon--right"
           /></el-button>
         </el-form-item>
@@ -71,8 +70,11 @@
 </template>
 
 <script>
+import { eventBus } from "@/main";
 import { mavonEditor } from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
+
+import { setBlogData } from "network/blog";
 
 export default {
   name: "BlogsInfo",
@@ -81,7 +83,6 @@ export default {
   },
   data() {
     return {
-      form: {},
       toolbarsValue: {
         bold: true, // 粗体
         italic: true, // 斜体
@@ -121,20 +122,20 @@ export default {
   },
   props: {
     types: Array,
-    tags: Array
+    tags: Array,
+    form: Object
   },
   methods: {
-    onSaved() {
-      this.form.published = 0;
-      console.log(this.form);
-    },
-    onPublished() {
-      this.form.published = 1;
-      console.log(this.form);
-    },
-    saveMavon(value, render) {
-      console.log("this is render" + render);
-      console.log("this is value" + value);
+    onSaved(flag) {
+      let form = this.form;
+
+      form.published = flag;
+      setBlogData(form).then(res => {
+        // this.form = {};
+        this.$emit("changeInfoForm");
+        this.$emit("changeInfoActiveName", "second");
+        console.log(res);
+      });
     }
   }
 };

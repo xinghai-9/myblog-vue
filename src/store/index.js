@@ -8,7 +8,7 @@ export default new Vuex.Store({
     currentIndex1: 1,
     currentIndex2: 1,
     currentUser: null,
-    isLogin: false,
+    isLogin: false,    
   },
   getters: {
     currentUser: state => state.currentUser,

@@ -1,10 +1,10 @@
 <template>
-  <el-tabs v-model="activeName" type="card">
+  <el-tabs v-model="activeName" type="card" >
     <el-tab-pane label="发布" name="first">
-      <blogs-info :types="types" :tags="tags" />
+      <blogs-info :types="types" :tags="tags" :form="form" @changeInfoActiveName="toChangeInfoActiveName" @changeInfoForm="toChangeInfoForm"/>
     </el-tab-pane>
     <el-tab-pane label="列表" name="second">
-      <blogs-edit :types="types" :tags="tags" />
+      <blogs-edit :types="types" :tags="tags" @changeActiveName="toChangeActiveName" @changeForm="toChangeForm"/>
     </el-tab-pane>
   </el-tabs>
 </template>
@@ -26,7 +26,8 @@ export default {
     return {
       activeName: "first",
       tags: [],
-      types: []
+      types: [],
+      form: {},
     };
   },
   methods: {
@@ -40,6 +41,18 @@ export default {
         this.types = res;
       });
     },
+    toChangeActiveName(params) { //从blogs-edit跳转到blogs-info
+      this.activeName = params;
+    },
+    toChangeForm(params){
+      this.form = params;
+    },
+    toChangeInfoForm(){
+      this.form = {}
+    },
+    toChangeInfoActiveName(params){
+      this.activeName = params; 
+    }
   },
   created() {
     this.getAllTag();

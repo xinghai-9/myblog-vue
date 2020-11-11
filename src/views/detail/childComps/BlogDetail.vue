@@ -24,13 +24,10 @@
 import { getBlogById } from "network/blog";
 import marked from "marked";
 
+import "highlight.js/styles/darcula.css";
+
 marked.setOptions({
   renderer: new marked.Renderer(),
-  highlight: function(code, language) {
-    const hljs = require('highlight.js');
-    const validLanguage = hljs.getLanguage(language) ? language : 'plaintext';
-    return hljs.highlight(validLanguage, code).value;
-  },
   pedantic: false,
   gfm: true,
   breaks: false,

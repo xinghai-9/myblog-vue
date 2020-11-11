@@ -84,10 +84,10 @@ export default {
       ],
       audio: [
         {
-          name: "关山酒",
-          artist: "等什么君",
+          name: "pure imagination",
+          artist: "ROOK1E",
           url:
-            "https://sharefs.yun.kugou.com/202011031529/3babaebd0b6ed7ce6a6af9e77584bb08/G164/M02/19/09/hJQEAF1ou5aAVrTxADlcwhIMwfQ617.mp3",
+            "https://www.joy127.com/url/34338.mp3",
           cover:
             "https://p1.music.126.net/5zs7IvmLv7KahY3BFzUmrg==/109951163635241613.jpg?param=300y300"
         },
@@ -95,7 +95,7 @@ export default {
           name: "莫问归期",
           artist: "蒋雪儿",
           url:
-            "https://sharefs.yun.kugou.com/202011031529/4e2aeec9540bdb946a1aae855d124d0c/G165/M08/0F/03/hZQEAF1cr5qAGOY4ADWWMWd56LA023.mp3",
+            "https://www.joy127.com/url/8980.mp3",
           cover:
             "http://m.imeitou.com/uploads/allimg/2020090112/wbp0cmekiqq-lp.jpg?param=300y300"
         },
