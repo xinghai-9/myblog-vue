@@ -32,3 +32,14 @@ export function updateTag(form) {
     }
   });
 }
+
+export function deleteTag(row) {
+  return request({
+    url: "/tags/delete",
+    method: "post",
+    data: {
+      id: row.id,
+      name: row.name
+    }
+  });
+}

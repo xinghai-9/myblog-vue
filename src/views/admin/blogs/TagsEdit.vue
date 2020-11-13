@@ -1,12 +1,16 @@
 <template>
   <div>
-    <base-edit :tableData="tableData" @updateTagData="update"></base-edit>
+    <base-edit
+      :tableData="tableData"
+      @updateTagData="update"
+      @deleteTagData="deleteTag"
+    ></base-edit>
   </div>
 </template>
 
 <script>
 import BaseEdit from "components/content/admin/BaseEdit";
-import { getAllTag } from "network/tag";
+import { getAllTag, deleteTag } from "network/tag";
 
 export default {
   name: "TagsEdit",
@@ -24,8 +28,17 @@ export default {
         this.tableData = res;
       });
     },
-    update(){
+    update() {
       this.getAllTag();
+    },
+    deleteTag(row) {
+      deleteTag(row).then(res => {
+        this.$message({
+          type: "success",
+          message: "删除成功!"
+        });
+        this.update();
+      });
     }
   },
   created() {

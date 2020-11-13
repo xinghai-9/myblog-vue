@@ -39,10 +39,7 @@
             "
             >编辑
           </el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index)"
+          <el-button size="mini" type="danger" @click="handleDelete(scope.row)"
             >删除
           </el-button>
         </template>
@@ -135,28 +132,42 @@ export default {
         });
       }
     },
-    handleDelete(index) {
-      // this.$confirm("此操作将永久删除该博客, 是否继续?", "提示", {
-      //   confirmButtonText: "确定",
-      //   cancelButtonText: "取消",
-      //   type: "warning"
-      // })
-      //   .then(() => {
-      //     deleteBlogById(row.id).then(res => {
-      //       console.log(res);
-      //       this.tableData.splice(index, 1);
-      //       this.$message({
-      //         type: "success",
-      //         message: "删除成功!"
-      //       });
-      //     });
-      //   })
-      //   .catch(() => {
-      //     this.$message({
-      //       type: "info",
-      //       message: "已取消删除"
-      //     });
-      //   });
+    handleDelete(row) {
+      if (this.isTypeEdit()) {
+        this.$confirm(
+          "此操作将永久删除该分类, 是否继续?",
+          "提示",
+          {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          }
+        ).then(() => {
+            this.$emit("deleteTypeData", row);
+          }).catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消删除"
+            });
+          });
+      }else{
+        this.$confirm(
+          "此操作将永久删除该标签, 是否继续?",
+          "提示",
+          {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          }
+        ).then(() => {
+            this.$emit("deleteTagData", row);
+          }).catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消删除"
+            });
+          });
+      }
     }
   }
 };

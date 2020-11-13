@@ -1,12 +1,16 @@
 <template>
   <div>
-    <base-edit :tableData="tableData" @updateTypeData="update"></base-edit>
+    <base-edit
+      :tableData="tableData"
+      @updateTypeData="update"
+      @deleteTypeData="deleteType"
+    ></base-edit>
   </div>
 </template>
 
 <script>
 import BaseEdit from "components/content/admin/BaseEdit";
-import { getAllType } from "network/type";
+import { getAllType, deleteType } from "network/type";
 
 export default {
   name: "TypesEdit",
@@ -24,8 +28,17 @@ export default {
         this.tableData = res;
       });
     },
-    update(){
+    update() {
       this.getAllType();
+    },
+    deleteType(row) {
+      deleteType(row).then(res => {
+        this.$message({
+          type: "success",
+          message: "删除成功!"
+        });
+        this.update();
+      });
     }
   },
   created() {

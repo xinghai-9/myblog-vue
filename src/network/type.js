@@ -32,3 +32,14 @@ export function updateType(form) {
     }
   });
 }
+
+export function deleteType(row) {
+  return request({
+    url: "/types/delete",
+    method: "post",
+    data: {
+      id: row.id,
+      name: row.name
+    }
+  });
+}
