@@ -11,3 +11,24 @@ export function getBlogsByTypeName(type_name){
     url: "/types/" + type_name
   });
 }
+
+export function setTypeData(type_name) {
+  return request({
+    url: "/types/post",
+    method: "post",
+    data: {
+      type_name: type_name,
+    }
+  });
+}
+
+export function updateType(form) {
+  return request({
+    url: "/types/update",
+    method: "post",
+    data: {
+      id: form.id,
+      name: form.name
+    }
+  });
+}

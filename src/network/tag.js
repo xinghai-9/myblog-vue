@@ -11,3 +11,24 @@ export function getBlogsByTagId(tag_id){
     url: "tags/" + tag_id
   });
 }
+
+export function setTagData(tag_name) {
+  return request({
+    url: "/tags/post",
+    method: "post",
+    data: {
+      tag_name: tag_name,
+    }
+  });
+}
+
+export function updateTag(form) {
+  return request({
+    url: "/tags/update",
+    method: "post",
+    data: {
+      id: form.id,
+      name: form.name
+    }
+  });
+}

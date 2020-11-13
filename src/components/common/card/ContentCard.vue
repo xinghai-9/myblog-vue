@@ -77,13 +77,14 @@ export default {
             item.commentNum * 0.3) /
           (item.viewNum + item.favoriteNum + item.commentNum)
         ).toFixed(6);
-        tmpBlogList.push(tmpBlog);
+        if(!isNaN(tmpBlog.weight)){
+          tmpBlogList.push(tmpBlog);
+        }
 
         tmpBlogList.sort((a, b) => {
           return b.weight - a.weight;
         });
       }
-
       return tmpBlogList.slice(0, 6);
     },
     getAllTagName() {
