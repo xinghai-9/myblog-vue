@@ -1,8 +1,8 @@
 {
-  "id": "2102864",
+  "id": "2113514",
   "name": "myblog",
   "font_family": "iconfont",
-  "css_prefix_text": "icon-",
+  "css_prefix_text": "icon",
   "description": "",
   "glyphs": [
     {
@@ -13,11 +13,11 @@
       "unicode_decimal": 59044
     },
     {
-      "icon_id": "495787",
-      "name": "home",
-      "font_class": "home",
-      "unicode": "e64e",
-      "unicode_decimal": 58958
+      "icon_id": "1061088",
+      "name": "Chart2",
+      "font_class": "chart2",
+      "unicode": "e630",
+      "unicode_decimal": 58928
     },
     {
       "icon_id": "1374104",
@@ -27,11 +27,18 @@
       "unicode_decimal": 59021
     },
     {
-      "icon_id": "4520333",
-      "name": "归档",
-      "font_class": "guidang",
-      "unicode": "e60c",
-      "unicode_decimal": 58892
+      "icon_id": "5994030",
+      "name": "video",
+      "font_class": "video",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "6654267",
+      "name": "icon_home",
+      "font_class": "icon_home",
+      "unicode": "e613",
+      "unicode_decimal": 58899
     },
     {
       "icon_id": "16553464",

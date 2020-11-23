@@ -5,8 +5,10 @@ const Home = () => import("views/home/Home");
 const Detail = () => import("views/detail/Detail");
 const Types = () => import("views/types/Types");
 const Tags = () => import("views/tags/Tags");
+const Video = () => import("views/video/Video");
 const Chart = () => import("views/chart/Chart");
 const About = () => import("views/about/About");
+
 
 const Login = () => import("components/common/login/Login");
 
@@ -38,6 +40,10 @@ const routes = [
   {
     path: "/tags",
     component: Tags
+  },
+  {
+    path: "/video",
+    component: Video
   },
   {
     path: "/chart",

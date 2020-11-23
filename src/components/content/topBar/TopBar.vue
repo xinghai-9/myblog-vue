@@ -22,36 +22,43 @@
           >
             <el-menu-item index="1">
               <i
-                class="iconfont icon-home"
-                :class="{ active: 1 === getCurrentIndex1 }"
+                class="iconfont iconicon_home"
+                :class="{ active: 1 === currentIndex }"
                 >首页</i
               >
             </el-menu-item>
             <el-menu-item index="2">
               <i
-                class="iconfont icon-category"
-                :class="{ active: 2 === getCurrentIndex1 }"
+                class="iconfont iconcategory"
+                :class="{ active: 2 === currentIndex }"
                 >分类</i
               >
             </el-menu-item>
             <el-menu-item index="3">
               <i
-                class="iconfont icon-cc-tag-more"
-                :class="{ active: 3 === getCurrentIndex1 }"
+                class="iconfont iconcc-tag-more"
+                :class="{ active: 3 === currentIndex }"
                 >标签</i
               >
             </el-menu-item>
             <el-menu-item index="4">
               <i
-                class="iconfont icon-guidang"
-                :class="{ active: 4 === getCurrentIndex1 }"
-                >图表</i
+                class="iconfont iconvideo"
+                :class="{ active: 4 === currentIndex }"
+                >视频</i
               >
             </el-menu-item>
             <el-menu-item index="5">
               <i
-                class="iconfont icon-guanyuwomen"
-                :class="{ active: 5 === getCurrentIndex1 }"
+                class="iconfont iconchart2"
+                :class="{ active: 5 === currentIndex }"
+                >图表</i
+              >
+            </el-menu-item>
+            <el-menu-item index="6">
+              <i
+                class="iconfont iconguanyuwomen"
+                :class="{ active: 6 === currentIndex }"
                 >关于我</i
               >
             </el-menu-item>
@@ -71,21 +78,21 @@
           >
             <el-menu-item index="1">
               <i
-                class="iconfont icon-home"
+                class="iconfont iconicon_home"
                 :class="{ active: 1 === getCurrentIndex2 }"
                 >博客管理</i
               >
             </el-menu-item>
             <el-menu-item index="2">
               <i
-                class="iconfont icon-category"
+                class="iconfont iconcategory"
                 :class="{ active: 2 === getCurrentIndex2 }"
                 >分类管理</i
               >
             </el-menu-item>
             <el-menu-item index="3">
               <i
-                class="iconfont icon-cc-tag-more"
+                class="iconfont iconcc-tag-more"
                 :class="{ active: 3 === getCurrentIndex2 }"
                 >标签管理</i
               >
@@ -94,7 +101,7 @@
         </template>
       </el-col>
 
-      <el-col :span="6">
+      <el-col :span="5">
         <!--前台搜索框-->
         <template v-if="this.$route.path.indexOf('/admin') === -1">
           <el-input
@@ -105,11 +112,11 @@
           >
           </el-input>
         </template>
-        
+
         <!--头像 -->
         <el-dropdown placement="top" @command="handleCommand">
           <span class="el-dropdown-link">
-            <avatar :src="isLogin ? getCurrentUser.avatar : avatarPath"/>
+            <avatar :src="isLogin ? getCurrentUser.avatar : avatarPath" />
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item disabled>{{
@@ -143,8 +150,10 @@ export default {
   },
   data() {
     return {
+      currentIndex: this.$store.state.currentIndex1,
       input: "",
-      avatarPath: "http://ww4.sinaimg.cn/bmiddle/006DLFVFgy1ft0j2pddjuj30v90uvagf.jpg"
+      avatarPath:
+        "http://ww4.sinaimg.cn/bmiddle/006DLFVFgy1ft0j2pddjuj30v90uvagf.jpg"
     };
   },
   computed: {
@@ -157,7 +166,7 @@ export default {
     isLogin() {
       return this.$store.getters.isLogin;
     },
-    getCurrentUser(){
+    getCurrentUser() {
       return this.$store.getters.currentUser;
     }
   },
@@ -173,22 +182,32 @@ export default {
       switch (key) {
         case 1:
           this.$router.push("/home").catch(err => err);
+          this.currentIndex = key;
           this.changeCurrentIndex1(key);
           break;
         case 2:
           this.$router.push("/types").catch(err => err);
+          this.currentIndex = key;
           this.changeCurrentIndex1(key);
           break;
         case 3:
           this.$router.push("/tags").catch(err => err);
+          this.currentIndex = key;
           this.changeCurrentIndex1(key);
           break;
         case 4:
-          this.$router.push("/chart").catch(err => err);
+          this.$router.push("/video").catch(err => err);
+          this.currentIndex = key;
           this.changeCurrentIndex1(key);
           break;
         case 5:
+          this.$router.push("/chart").catch(err => err);
+          this.currentIndex = key;
+          this.changeCurrentIndex1(key);
+          break;
+        case 6:
           this.$router.push("/about").catch(err => err);
+          this.currentIndex = key;
           this.changeCurrentIndex1(key);
           break;
       }
@@ -226,32 +245,32 @@ export default {
 </script>
 
 <style scoped>
-  #top-bar {
-    background-color: #545c64;
-    height: 60px;
-  }
+#top-bar {
+  background-color: #545c64;
+  height: 60px;
+}
 
-  .img {
-    padding-left: 280px;
-  }
+.img {
+  padding-left: 280px;
+}
 
-  .top_input {
-    width: 300px;
-    margin-top: 11px;
-  }
+.top_input {
+  width: 300px;
+  margin-top: 11px;
+}
 
-  .el-dropdown-link {
-    cursor: pointer;
-    color: #409eff;
-  }
+.el-dropdown-link {
+  cursor: pointer;
+  color: #409eff;
+}
 
-  .el-dropdown {
-    float: right;
-    margin-top: 5px;
-    margin-right: -50px;
-  }
+.el-dropdown {
+  float: right;
+  margin-top: 5px;
+  margin-right: -50px;
+}
 
-  .active {
-    color: rgb(255, 208, 75) !important;
-  }
+.active {
+  color: rgb(255, 208, 75) !important;
+}
 </style>

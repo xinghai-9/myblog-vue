@@ -11,7 +11,7 @@
     <img :src="blog.firstPicture" class="image" />
     <el-divider />
     <div class="content">
-      <div v-html="blogContent" />
+      <div class="markdown-body" v-html="blogContent" />
     </div>
     <br />
     <el-divider>
@@ -22,20 +22,8 @@
 
 <script>
 import { getBlogById } from "network/blog";
-import marked from "marked";
 
-import "highlight.js/styles/darcula.css";
-
-marked.setOptions({
-  renderer: new marked.Renderer(),
-  pedantic: false,
-  gfm: true,
-  breaks: false,
-  sanitize: false,
-  smartLists: true,
-  smartypants: false,
-  xhtml: false
-});
+import 'github-markdown-css/github-markdown.css' // 然后添加样式markdown-body
 
 export default {
   name: "BlogDetail",
@@ -52,7 +40,9 @@ export default {
     getBlogById() {
       getBlogById(this.$route.params.id).then(res => {
         this.blog = res;
-        this.blogContent = marked(this.blog.content || "");
+        let MarkdownIt = require('markdown-it');
+        let md = new MarkdownIt();
+        this.blogContent = md.render(this.blog.content);
       });
     }
   }
